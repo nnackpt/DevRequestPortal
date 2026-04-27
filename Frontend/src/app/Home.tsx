@@ -9,8 +9,9 @@ import LoginOutlined from "@mui/icons-material/LoginOutlined";
 import BadgeOutlined from "@mui/icons-material/BadgeOutlined";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Button, Card, CardContent, Chip, CircularProgress, Divider, Typography } from "@mui/material";
 import { getConfig } from "@/lib/config";
+import Image from "next/image";
 
 export default function Home() {
     const router = useRouter()
@@ -75,6 +76,103 @@ export default function Home() {
     }
 
     return (
-        <Box></Box>
+        <Box
+            sx={{
+                minHeight: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "linear-gradient(135deg, #f5f7fa 0%, #e8eef9 100%)",
+                px: 2
+            }}
+        >
+            <Card
+                elevation={0}
+                sx={{
+                    width: "100%",
+                    maxWidth: 420,
+                    borderRadius: 4,
+                    border: "1px solid",
+                    borderColor: "grey.200",
+                    boxShadow: "0 8px 40px rgba(22,71,153,0.10)"
+                }}
+            >
+                <CardContent sx={{ p: 4 }}>
+                    {/* Logo/Title */}
+                    <Box sx={{ textAlign: "center", mb: 3.5 }}>
+                        <Box
+                            sx={{
+                                width: 64,
+                                height: 64,
+                                borderRadius: 3,
+                                bgcolor: "primary.main",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                mx: "auto",
+                                mb: 2,
+                                boxShadow: "0 4px 16px rgba(22,71,153,0.25)"
+                            }}
+                        >
+                            <Image 
+                                src="/autoliv_logo.png"
+                                alt="Autoliv"
+                                width={40}
+                                height={40}
+                            />
+                        </Box>
+                        <Typography variant="h6" sx={{ fontWeight: 700, color: "primary.main" }}>
+                            Dev Request Portal
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: "text.secondary", mt: 0.5 }}>
+                            Sign in to continue
+                        </Typography>
+                    </Box>
+
+                    {/* SSO Button */}
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        size="large"
+                        startIcon={loadingSSO ? <CircularProgress size={18} color="inherit" /> : <WindowOutlined />}
+                        onClick={handleSSO}
+                        disabled={loadingSSO || loadingManual}
+                        sx={{
+                            mb: 2.5,
+                            py: 1.4,
+                            bgcolor: "primary.main",
+                            "&:hover": { bgcolor: "#0f3470" },
+                            boxShadow: "0 4px 14px rgba(22,71,153,0.30)"
+                        }}
+                    >
+                        {loadingSSO ? "Signing in..." : "Sign in with Windows SSO"}
+                    </Button>
+
+                    {/* Divider */}
+                    <Divider sx={{ mb: 2.5 }}>
+                        <Chip 
+                            label="or sign in manually"
+                            size="small"
+                            sx={{
+                                fontSize: 11,
+                                color: "text.secondary",
+                                bgcolor: "grey.300"
+                            }}
+                            variant="outlined"
+                        />
+                    </Divider>
+
+                    {/* User info chip */}
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+                        <BadgeOutlined sx={{ fontSize: 16, color: "primary.main"}} />
+                        <Typography variant="caption" color="text.secondary">
+                            Sign in as Windows User
+                        </Typography>
+                    </Box>
+
+                    {/* Error */}
+                </CardContent>
+            </Card>
+        </Box>
     )
 }
